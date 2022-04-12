@@ -9,8 +9,6 @@ import java.util.*;
  */
 public class BFProcessor {
 
-    // TODO: Fix nested loops
-
     private final BFMemory memory;
 
     public BFProcessor(){
