@@ -14,6 +14,11 @@ public class Main {
      * @param args 0: Name of file 1: Directory where command was executed
      */
     public static void main(String[] args) {
+        if(args.length < 2){
+            System.out.println("Do not directly run BF Interpreter.");
+            return;
+        }
+
 	    String fileName = args[0];
         String sourcePath = args[1];
 

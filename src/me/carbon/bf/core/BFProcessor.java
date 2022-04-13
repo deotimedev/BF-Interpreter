@@ -57,21 +57,24 @@ public class BFProcessor {
                 * Output: Outputs one byte at the selected cell
                 * Input: Requests one byte of input from the user
                 */
-                case OUTPUT -> System.out.println(Config.RAW ? this.memory.getCurrentCell() : (char) this.memory.getCurrentCell());
+                case OUTPUT -> {
+                    if(Config.RAW) System.out.print(this.memory.getCurrentCell());
+                    else System.out.print((char) this.memory.getCurrentCell());
+                }
                 case INPUT -> this.memory.setCurrentCell(getInput());
             }
             index++;
 
             if(Config.DEBUG){
-                System.out.println("-----------------------------------");
-                System.out.printf("Current index: %s%n", index - 1);
-                System.out.printf("BFCommand: %s%n", command.name());
-                System.out.printf("First 25 cells of memory: %s%n", Arrays.toString(Arrays.copyOfRange(this.memory.getCells(), 0, 25)));
-                System.out.printf("Pointer index: %s%n", this.memory.getPointer());
-                System.out.println("-----------------------------------\n");
+                System.out.print("%n-----------------------------------");
+                System.out.printf("%nCurrent index: %s", index - 1);
+                System.out.printf("%nBFCommand: %s", command.name());
+                System.out.printf("%nFirst 25 cells of memory: %s", Arrays.toString(Arrays.copyOfRange(this.memory.getCells(), 0, 25)));
+                System.out.printf("%nPointer index: %s%n", this.memory.getPointer());
+                System.out.print("%n-----------------------------------");
             }
         }
-        System.out.printf("Completed in %s seconds.%n", (System.currentTimeMillis() - startTime) / 1000);
+        if(Config.DEBUG) System.out.printf("%nCompleted in %s seconds.", (System.currentTimeMillis() - startTime) / 1000);
     }
 
     /**
@@ -80,18 +83,16 @@ public class BFProcessor {
      */
     private byte getInput(){
         Scanner scanner = new Scanner(System.in);
-        byte value;
         while(true){
-            System.out.print("Input: ");
-            String input = scanner.nextLine();
-            try{
-                value = Byte.parseByte(input);
-                break;
-            } catch (NumberFormatException e){
-                System.out.println("Invalid byte.");
+            System.out.print("Byte: ");
+            String inputStr = scanner.nextLine();
+            if(inputStr.matches("^[0-9]+$")){
+                double inputDouble = Double.parseDouble(inputStr);
+                if(inputDouble < Byte.MAX_VALUE && inputDouble > Byte.MIN_VALUE) {
+                    return (byte) inputDouble;
+                }
             }
         }
-        return value;
     }
 
 
